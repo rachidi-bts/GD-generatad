@@ -135,6 +135,14 @@ public class FiliereServiceImpl implements FiliereService {
 
 	 return entityManager.createQuery(query).getResultList();
 	}
+	@Override
+	public Filiere findByAbrv(String abrv) {
+		return filiereDao.findByAbrv(abrv);
+	}
+	@Override
+	public int deleteByAbrv(String abrv) {
+		return filiereDao.deleteByAbrv(abrv);
+	}
   
  
 }

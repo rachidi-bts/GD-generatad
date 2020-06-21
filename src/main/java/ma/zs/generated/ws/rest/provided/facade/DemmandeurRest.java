@@ -68,6 +68,28 @@ public class DemmandeurRest {
 	public int deleteByCne(@PathVariable String cne){
 		return  demmandeurService.deleteByCne(cne);
 	}
+	
+	@GetMapping("/codeApogee/{codeApogee}")
+	public DemmandeurVo findByCodeApogee(@PathVariable String codeApogee) {
+		return demmandeurConverter.toVo(demmandeurService.findByCodeApogee(codeApogee));
+	}
+
+	@GetMapping("/nom/{nom}")
+	public DemmandeurVo findByNom(@PathVariable String nom) {
+		return demmandeurConverter.toVo(demmandeurService.findByNom(nom));
+	}
+
+	@GetMapping("/cin/{cin}")
+	public DemmandeurVo findByCin(@PathVariable String cin) {
+		return demmandeurConverter.toVo(demmandeurService.findByCin(cin));
+	}
+	
+	
+	@GetMapping("/filiere/abrv/{abrv}")
+	public List<DemmandeurVo> findByFiliereAbrv(@PathVariable String abrv){
+	return demmandeurConverter.toVo(demmandeurService.findByFiliereAbrv(abrv));
+	}
+	
 
 
     @ApiOperation("Finds a demmandeur by libelle of filiere")

@@ -12,9 +12,14 @@ public interface FiliereDao extends JpaRepository<Filiere,Long> {
 
 	Filiere findByLibelle(String libelle);
        int deleteByLibelle(String libelle);
+       
+       public Filiere findByAbrv(String abrv);
+   	   public int deleteByAbrv(String abrv);
+   	   
 
        List<Filiere> findByTypeFiliereLibelle(String libelle);
-       int deleteByTypeFiliereLibelle(String libelle);       
+       int deleteByTypeFiliereLibelle(String libelle); 
+       
        List<Filiere> findByTypeFiliereId(Long id);
        int deleteByTypeFiliereId(Long id);
 

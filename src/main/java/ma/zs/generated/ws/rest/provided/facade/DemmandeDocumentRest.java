@@ -17,6 +17,7 @@ import ma.zs.generated.bean.DemmandeDocument;
 import ma.zs.generated.service.facade.DemmandeDocumentService;
 import ma.zs.generated.ws.rest.provided.converter.DemmandeDocumentConverter;
 import ma.zs.generated.ws.rest.provided.vo.DemmandeDocumentVo;
+import ma.zs.generated.ws.rest.provided.vo.DemmandeurVo;
 
 @Api("Manages demmandeDocument services")
 @RestController
@@ -99,6 +100,27 @@ public class DemmandeDocumentRest {
 	@DeleteMapping("/demmandeur/cne/{cne}")
 	public int deleteByDemmandeurCne(@PathVariable String cne){
 		return demmandeDocumentService.deleteByDemmandeurCne(cne);
+	}
+	
+	@GetMapping("/demmandeur/nom/{nom}")
+	public List<DemmandeDocumentVo> findByDemmandeurNom(@PathVariable String nom) {
+		return demmandeDocumentConverter.toVo(demmandeDocumentService.findByDemmandeurNom(nom));
+	}
+
+
+	@GetMapping("/demmandeur/codeApogee/{codeApogee}")
+	public List<DemmandeDocumentVo> findByDemmandeurCodeApogee(@PathVariable String codeApogee) {
+		return demmandeDocumentConverter.toVo(demmandeDocumentService.findByDemmandeurCodeApogee(codeApogee));
+	}
+	
+	@GetMapping("/demmandeur/cin/{cin}")
+	public List<DemmandeDocumentVo> findByDemmandeurCin(@PathVariable String cin) {
+		return demmandeDocumentConverter.toVo(demmandeDocumentService.findByDemmandeurCin(cin));
+	}
+	
+	@GetMapping("/demmandeur/filiere/abrv/{abrv}")
+	public List<DemmandeDocumentVo> findByDemmandeurFiliereAbrv(@PathVariable String abrv){
+	return demmandeDocumentConverter.toVo(demmandeDocumentService.findByDemmandeurFiliereAbrv(abrv));
 	}
 	
 	@ApiOperation("Finds demmandeDocument by id of demmandeur")

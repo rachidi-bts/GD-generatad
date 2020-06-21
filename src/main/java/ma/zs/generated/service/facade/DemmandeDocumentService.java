@@ -1,6 +1,10 @@
 package ma.zs.generated.service.facade;
 
+import java.io.FileNotFoundException;
 import java.util.List;
+
+import com.itextpdf.text.DocumentException;
+
 import ma.zs.generated.bean.DemmandeDocument;
 import ma.zs.generated.ws.rest.provided.vo.DemmandeDocumentVo;
 
@@ -29,10 +33,22 @@ public interface DemmandeDocumentService {
     int deleteByEtatDemmandeId(Long id);
 			 
 	List<DemmandeDocument> findByDemmandeurCne(String cne);
-    int deleteByDemmandeurCne(String cne);       
+    int deleteByDemmandeurCne(String cne);    
+    
+    public List<DemmandeDocument> findByDemmandeurNom(String nom);
+
+   	public List<DemmandeDocument> findByDemmandeurCodeApogee(String codeApogee);
+   	
+   	public List<DemmandeDocument> findByDemmandeurCin(String cin);
+   	
+    public List<DemmandeDocument> findByDemmandeurFiliereAbrv(String abrv);
+    
+    public int infoDemmandeurPdf(String cin, String libelle) throws DocumentException, FileNotFoundException;
 			
     List<DemmandeDocument> findByDemmandeurId(Long id);
     int deleteByDemmandeurId(Long id);
+    
+    
 			 
 	List<DemmandeDocument> findByTypeDocumentLibelle(String libelle);
     int deleteByTypeDocumentLibelle(String libelle);       

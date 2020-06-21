@@ -150,6 +150,22 @@ public class DemmandeurServiceImpl implements DemmandeurService {
 
 	 return entityManager.createQuery(query).getResultList();
 	}
+	@Override
+	public Demmandeur findByCodeApogee(String codeApogee) {
+		return demmandeurDao.findByCodeApogee(codeApogee);
+	}
+	@Override
+	public Demmandeur findByNom(String nom) {
+		return demmandeurDao.findByNom(nom);
+	}
+	@Override
+	public Demmandeur findByCin(String cin) {
+		return demmandeurDao.findByCin(cin);
+	}
+	@Override
+	public List<Demmandeur> findByFiliereAbrv(String abrv) {
+		return demmandeurDao.findByFiliereAbrv(abrv);
+	}
   
  
 }

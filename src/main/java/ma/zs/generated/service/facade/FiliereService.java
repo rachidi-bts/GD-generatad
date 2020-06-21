@@ -30,6 +30,10 @@ public interface FiliereService {
      */
 	Filiere findById(Long id);
 	
+	public Filiere findByAbrv(String abrv);
+	 
+	public int deleteByAbrv(String abrv);
+	
 	List<Filiere> findByTypeFiliereLibelle(String libelle);
     int deleteByTypeFiliereLibelle(String libelle);       
 			

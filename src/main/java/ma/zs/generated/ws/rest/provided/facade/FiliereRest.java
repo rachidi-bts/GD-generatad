@@ -69,6 +69,18 @@ public class FiliereRest {
 		return  filiereService.deleteByLibelle(libelle);
 	}
 
+	@ApiOperation("Finds a  filiere by abrv")
+    @GetMapping("/abrv/{abrv}")
+	public FiliereVo findByAbrv(@PathVariable String abrv){
+		return  filiereConverter.toVo(filiereService.findByAbrv(abrv));
+	}
+	
+	@ApiOperation("Delete a  filiere by abrv")
+    @DeleteMapping("/abrv/{abrv}")
+	public int deleteByAbrv(@PathVariable String abrv){
+		return  filiereService.deleteByAbrv(abrv);
+	}
+	
 
     @ApiOperation("Finds a filiere by libelle of typeFiliere")
 	@GetMapping("/typeFiliere/libelle/{libelle}")

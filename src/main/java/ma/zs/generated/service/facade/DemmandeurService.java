@@ -22,6 +22,14 @@ public interface DemmandeurService {
      */
 	Demmandeur findByCne(String cne);
 
+  public Demmandeur findByCodeApogee(String codeApogee);
+	
+	public Demmandeur findByNom(String nom);
+	
+	public Demmandeur findByCin(String cin);
+	
+	public List<Demmandeur> findByFiliereAbrv(String abrv);
+	
     /**
      * find Demmandeur from database by id (id)
      * @param id - id of Demmandeur 
