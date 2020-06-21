@@ -1,5 +1,6 @@
 package  ma.zs.generated.ws.rest.provided.facade;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.itextpdf.text.DocumentException;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import ma.zs.generated.bean.DemmandeDocument; 
@@ -122,6 +126,11 @@ public class DemmandeDocumentRest {
 	public List<DemmandeDocumentVo> findByDemmandeurFiliereAbrv(@PathVariable String abrv){
 	return demmandeDocumentConverter.toVo(demmandeDocumentService.findByDemmandeurFiliereAbrv(abrv));
 	}
+
+	@GetMapping("/infoDemmandeurPdf/cin/{cin}/libelle/{libelle}")
+	public int infoDemmandeurPdf(@PathVariable String cin, @PathVariable String libelle) throws DocumentException, FileNotFoundException{
+		return demmandeDocumentService.infoDemmandeurPdf(cin, libelle);
+	} 
 	
 	@ApiOperation("Finds demmandeDocument by id of demmandeur")
 	@GetMapping("/demmandeur/id/{id}")
