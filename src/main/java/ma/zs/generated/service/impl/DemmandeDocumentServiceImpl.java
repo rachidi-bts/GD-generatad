@@ -278,9 +278,11 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 		
 		Font fontt = FontFactory.getFont(FontFactory.TIMES, 11, Font.UNDERLINE);
 		Phrase diplome = new Phrase("Diplôme :", fontt);
-		Phrase phh = new Phrase("  " + "3ème Année LST" + " " + demmandeur.getFiliere().getAbrv() + "\n\n" +"   ", font);
+		Phrase phh = new Phrase("  " + "3ème Année" + " " + demmandeur.getFiliere().getTypeFiliere().getLibelle() +
+				" " + demmandeur.getFiliere().getAbrv() + "\n\n" +"   ", font);
 		Phrase annee = new Phrase("Année :", fontt);
-		Phrase phh2 = new Phrase("      " + "LST" + " " + demmandeur.getFiliere().getLibelle(), font);
+		Phrase phh2 = new Phrase("      " + demmandeur.getFiliere().getTypeFiliere().getLibelle() + " " + "ST" + " " 
+		+ demmandeur.getFiliere().getLibelle(), font);
 		p.add(diplome);
 		p.add(phh);
 		p.add(annee);
