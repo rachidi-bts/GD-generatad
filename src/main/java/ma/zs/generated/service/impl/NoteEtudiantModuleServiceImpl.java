@@ -181,6 +181,7 @@ public class NoteEtudiantModuleServiceImpl implements NoteEtudiantModuleService 
 
 	 return entityManager.createQuery(query).getResultList();
 	}
+
   
  
 }

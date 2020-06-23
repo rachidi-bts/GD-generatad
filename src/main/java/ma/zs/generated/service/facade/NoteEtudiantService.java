@@ -5,6 +5,7 @@ import ma.zs.generated.bean.NoteEtudiant;
 import ma.zs.generated.ws.rest.provided.vo.NoteEtudiantVo;
 
 public interface NoteEtudiantService {
+	NoteEtudiant findByDemmandeurCneAndSemestreAndAnneeUniversitaire(String cne,String semestre, Long anneeUniversirtaire);
 
         /**
 

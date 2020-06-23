@@ -67,6 +67,23 @@ public class NoteEtudiantModule {
           this.noteEtudiant = noteEtudiant;
      }
 
+	public NoteEtudiantModule(Long id, String ptsJury, Double note, NoteEtudiant noteEtudiant, Resultat resultat,
+			Module module) {
+		super();
+		this.id = id;
+		this.ptsJury = ptsJury;
+		this.note = note;
+		this.noteEtudiant = noteEtudiant;
+		this.resultat = resultat;
+		this.module = module;
+	}
+
+	@Override
+	public String toString() {
+		return "NoteEtudiantModule [id=" + id + ", ptsJury=" + ptsJury + ", note=" + note + ", noteEtudiant="
+				+ noteEtudiant + ", resultat=" + resultat + ", module=" + module + "]";
+	}
+
 
 
 }

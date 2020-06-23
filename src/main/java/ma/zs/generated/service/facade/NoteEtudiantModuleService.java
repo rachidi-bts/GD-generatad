@@ -1,6 +1,8 @@
 package ma.zs.generated.service.facade;
 
 import java.util.List;
+
+import ma.zs.generated.bean.NoteEtudiant;
 import ma.zs.generated.bean.NoteEtudiantModule;
 import ma.zs.generated.ws.rest.provided.vo.NoteEtudiantModuleVo;
 
@@ -11,8 +13,7 @@ public interface NoteEtudiantModuleService {
      * find all NoteEtudiantModule in database 
      * @return List<NoteEtudiantModule> , If database is empty return  null.
      */
-	List<NoteEtudiantModule> findAll();
-	   
+	List<NoteEtudiantModule> findAll();	   
 
     /**
      * find NoteEtudiantModule from database by id (id)

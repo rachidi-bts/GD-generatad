@@ -132,6 +132,12 @@ public class DemmandeDocumentRest {
 		return demmandeDocumentService.infoDemmandeurPdf(cin, libelle);
 	} 
 	
+	@GetMapping("/infoRelevePdf/cne/{cne}/semestre/{semestre}/anneeUniversitaire/{anneeUniversitaire}/libelle/{libelle}")
+	public int infoRelevePdf(@PathVariable String cne,@PathVariable String semestre,@PathVariable Long anneeUniversitaire, @PathVariable String libelle) throws DocumentException, FileNotFoundException{
+		return demmandeDocumentService.infoRelevePdf(cne,semestre,anneeUniversitaire, libelle);
+	} 
+	
+	
 	@ApiOperation("Finds demmandeDocument by id of demmandeur")
 	@GetMapping("/demmandeur/id/{id}")
 	public List<DemmandeDocumentVo> findByDemmandeurId(@PathVariable Long id){

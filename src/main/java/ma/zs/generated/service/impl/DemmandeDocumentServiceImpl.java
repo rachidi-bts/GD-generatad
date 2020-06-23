@@ -1,13 +1,16 @@
 package ma.zs.generated.service.impl;
 
-import java.util.List;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.itextpdf.text.BaseColor;
@@ -18,22 +21,25 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 
-import org.springframework.stereotype.Service;
-import javax.persistence.EntityManager;
 import ma.zs.generated.bean.DemmandeDocument;
-import ma.zs.generated.bean.EtatDemmande;
 import ma.zs.generated.bean.Demmandeur;
+import ma.zs.generated.bean.EtatDemmande;
+import ma.zs.generated.bean.NoteEtudiant;
+import ma.zs.generated.bean.NoteEtudiantModule;
 import ma.zs.generated.bean.TypeDocument;
 import ma.zs.generated.dao.DemmandeDocumentDao;
 import ma.zs.generated.service.facade.DemmandeDocumentService;
-import ma.zs.generated.service.facade.EtatDemmandeService;
 import ma.zs.generated.service.facade.DemmandeurService;
+import ma.zs.generated.service.facade.EtatDemmandeService;
+import ma.zs.generated.service.facade.NoteEtudiantService;
 import ma.zs.generated.service.facade.TypeDocumentService;
+import ma.zs.generated.service.util.SearchUtil;
 import ma.zs.generated.ws.rest.provided.vo.DemmandeDocumentVo;
-import ma.zs.generated.service.util.*;
 @Service
 public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 
@@ -224,6 +230,8 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 	public List<DemmandeDocument> findByDemmandeurFiliereAbrv(String abrv) {
 		return demmandeDocumentDao.findByDemmandeurFiliereAbrv(abrv);
 	}
+	
+	//PDF
 	@Override
 	public int infoDemmandeurPdf(String cin, String libelle) throws DocumentException, FileNotFoundException {
 		Demmandeur demmandeur = demmandeurService.findByCin(cin);
@@ -235,7 +243,7 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 		SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat(pattern2);
 		SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat(pattern3);
 		Document document = new Document();
-		 PdfWriter.getInstance(document, new FileOutputStream(demmandeur.getNom() + demmandeur.getPrenom() + ".pdf"));
+		 PdfWriter.getInstance(document, new FileOutputStream(typeDocument.getLibelle() + demmandeur.getNom() + demmandeur.getPrenom() + ".pdf"));
 		document.open();
 		
         
@@ -327,6 +335,114 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 		
 		document.add(p7);
 		document.close();
+		return 1;
+	}
+	
+	@Autowired
+	private NoteEtudiantService noteEtudiantService;
+	//Relevé
+	@Override
+	public int infoRelevePdf(String cne,String semestre, Long anneUniversitaire, String libelle) throws DocumentException, FileNotFoundException {
+		Demmandeur demmandeur = demmandeurService.findByCne(cne);
+		TypeDocument typeDocument = typeDocumentService.findByLibelle(libelle);
+		NoteEtudiant noteEtudiant = noteEtudiantService.findByDemmandeurCneAndSemestreAndAnneeUniversitaire(cne, semestre, anneUniversitaire);
+		String pattern = "dd MMMM yyyy ";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		Document document = new Document();
+		 PdfWriter.getInstance(document, new FileOutputStream(typeDocument.getLibelle() +
+				 demmandeur.getNom() + demmandeur.getPrenom() + ".pdf"));
+		document.open();
+		
+		//ParagraphBorder border = new ParagraphBorder();
+		//writer.setPageEvent(border);
+
+		
+		float [] pointColumnWidths1 = {400};
+		PdfPTable table1 = new PdfPTable(pointColumnWidths1);
+		table1.setWidthPercentage(100);
+		
+		Font font2 = FontFactory.getFont(FontFactory.TIMES_BOLD, 9, BaseColor.BLACK);
+		Paragraph p1 = new Paragraph("Université Cadi Ayyad",font2);
+		p1.setAlignment(Element.ALIGN_LEFT);
+		PdfPCell c = new PdfPCell(p1);
+		c.setBorderWidth(2);
+        c.setFixedHeight(45);
+		table1.addCell(c);
+		document.add(table1);
+		
+		Font font1 = FontFactory.getFont(FontFactory.TIMES, 9, BaseColor.BLACK);
+		Paragraph p2 = new Paragraph("Faculté des Sciences et Techniques Gueliz-Marrakech", font1);
+		p2.setAlignment(Element.ALIGN_LEFT);
+		document.add(p2);
+		
+		Font font3 = FontFactory.getFont(FontFactory.HELVETICA_BOLDOBLIQUE, 20, Font.UNDERLINE);
+		Paragraph p3 = new Paragraph("\n " + typeDocument.getLibelle(), font3);
+		p3.setAlignment(Element.ALIGN_CENTER);
+		document.add(p3);
+		
+		Font font4 = FontFactory.getFont(FontFactory.TIMES, 11);
+		Paragraph p4 = new Paragraph("\n\n\n" +   "Nom Prénom :  " +"          "+ demmandeur.getNom() 
+		        + " " + demmandeur.getPrenom() + "\n"
+				+ "N° :" + "    " + demmandeur.getCodeApogee() + "          "
+				+ "CNE : " + "    " + demmandeur.getCne() +"\n"
+				+ "Né(e) le" + " " + simpleDateFormat.format(demmandeur.getDateNaissance()) + "    " + "à : " + " " 
+				+ demmandeur.getVilleNaissance()  + "\n"
+				+ "Inscrit(e) en semestre 6" + "  " + demmandeur.getFiliere().getLibelle()  
+				+ "a obtenu les notes suivantes :"  + "\n\n" , font4);
+		document.add(p4);
+		
+		float [] pointColumnWidths = {200};
+		 PdfPTable table = new PdfPTable(pointColumnWidths); 
+		 table.setWidthPercentage(100);
+		
+		 PdfPCell c1 = new PdfPCell(new Paragraph("Module" + "                            " + "Note/Baréme" +"              "
+				 +"Résultat"+ "                            " + "PtsJury"));
+		 table.addCell(c1);
+		 List<NoteEtudiantModule> noteEtudiantModules = noteEtudiant.getNoteEtudiantModules();
+		 for (NoteEtudiantModule noteEtudiantModule : noteEtudiantModules) {
+			 PdfPCell c2 = new PdfPCell(new Paragraph(noteEtudiantModule.getModule().getLibelle()+ "                 " + noteEtudiantModule.getNote()
+			 +"              " +noteEtudiantModule.getResultat().getLibelle()+ "               " + noteEtudiantModule.getPtsJury()));
+			 table.addCell(c2);
+			
+		}
+		/* m.setBorderColorRight(BaseColor.WHITE);   
+		 Phrase m =new Phrase("Module");
+		 Phrase n =new Phrase("Note/Barème");
+		 Phrase r =new Phrase("Résultat");
+		 Phrase p =new Phrase("Pts Jury");
+		 
+		 Phrase m1 =new Phrase("Thermodynamique");
+		 Phrase n1 =new Phrase("10/20");
+		 Phrase r1 =new Phrase("V");
+		 Phrase p10 =new Phrase(" ");
+		 PdfPCell m2 = new PdfPCell(new Paragraph("Mécanique du point et optique géométrique"));
+		 PdfPCell n2 = new PdfPCell(new Paragraph("10/20"));
+		 PdfPCell r2 = new PdfPCell(new Paragraph("VAR"));
+		 PdfPCell p2 = new PdfPCell(new Paragraph(" "));
+		 
+		 PdfPCell c9 = new PdfPCell(new Paragraph("Analyse1 : Fonction d'une variable réelle "));
+		 
+	      // Adding cells to the table       
+	   /*   table.addCell(new PdfPCell(m));       
+	      table.addCell(new PdfPCell(n));       
+	      table.addCell(new PdfPCell(r));       
+	      table.addCell(new PdfPCell(p));       
+	      table.addCell(new PdfPCell(m1));       
+	      table.addCell(new PdfPCell(n1));
+	      table.addCell(new PdfPCell(r1));
+	      table.addCell(new PdfPCell(p10));
+	      table.addCell(c5);
+	      table.addCell(c6);
+	      table.addCell(c7);
+	      table.addCell(c8);*/
+	     // table.addCell();
+	         
+	      // Adding Table to document        
+	      document.add(table);                  
+	         
+	      // Closing the document       
+	      document.close();
+
 		return 1;
 	}
   

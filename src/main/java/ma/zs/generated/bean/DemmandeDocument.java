@@ -33,6 +33,8 @@ public class DemmandeDocument {
 	private Demmandeur demmandeur ;
      @ManyToOne
 	private TypeDocument typeDocument ;
+    private Long anneeUniversitaire;
+    private String semestre;
 
      public DemmandeDocument(){
        super();
@@ -75,6 +77,22 @@ public class DemmandeDocument {
           this.dateValidation = dateValidation;
      }
 
+	public Long getAnneeUniversitaire() {
+		return anneeUniversitaire;
+	}
+
+	public void setAnneeUniversitaire(Long anneeUniversitaire) {
+		this.anneeUniversitaire = anneeUniversitaire;
+	}
+
+	public String getSemestre() {
+		return semestre;
+	}
+
+	public void setSemestre(String semestre) {
+		this.semestre = semestre;
+	}
+    
 
 
 }

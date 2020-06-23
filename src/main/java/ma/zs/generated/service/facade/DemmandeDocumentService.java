@@ -44,6 +44,8 @@ public interface DemmandeDocumentService {
     public List<DemmandeDocument> findByDemmandeurFiliereAbrv(String abrv);
     
     public int infoDemmandeurPdf(String cin, String libelle) throws DocumentException, FileNotFoundException;
+    
+	public int infoRelevePdf(String cne,String semestre, Long anneeUniversitaire, String libelle) throws DocumentException, FileNotFoundException;
 			
     List<DemmandeDocument> findByDemmandeurId(Long id);
     int deleteByDemmandeurId(Long id);

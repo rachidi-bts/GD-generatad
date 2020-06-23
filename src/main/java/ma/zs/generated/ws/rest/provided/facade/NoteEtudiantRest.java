@@ -26,6 +26,7 @@ public class NoteEtudiantRest {
 	@Autowired 
 	private NoteEtudiantService noteEtudiantService;
 	
+	
 	@Autowired 
 	private NoteEtudiantConverter noteEtudiantConverter ;
 
@@ -131,6 +132,9 @@ public class NoteEtudiantRest {
 	public void setNoteEtudiantService( NoteEtudiantService noteEtudiantService){
 	 	this.noteEtudiantService=noteEtudiantService;
 	}
-	
+	@GetMapping("/findByDemmandeurCneAndSemestreAndAnneeUniversitaire/cne/{cne}/semestre/{semestre}/anneeUniversirtaire/{anneeUniversirtaire}")
+	public NoteEtudiant findByDemmandeurCneAndSemestreAndAnneeUniversitaire(@PathVariable String cne,@PathVariable String semestre,@PathVariable Long anneeUniversirtaire) {
+		return noteEtudiantService.findByDemmandeurCneAndSemestreAndAnneeUniversitaire(cne, semestre,anneeUniversirtaire);
+	}
 
 }

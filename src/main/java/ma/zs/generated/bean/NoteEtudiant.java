@@ -23,9 +23,11 @@ public class NoteEtudiant {
 	private Resultat resultatFinal ;
      @ManyToOne
 	private Demmandeur demmandeur ;
-     @OneToMany(mappedBy = "noteEtudiant")
+//     @OneToMany(mappedBy = "noteEtudiant")
+  @OneToMany
      private List<NoteEtudiantModule> noteEtudiantModules ;
-
+     private String semestre;
+     private Long anneeUniversitaire;
      public NoteEtudiant(){
        super();
      }
@@ -61,6 +63,45 @@ public class NoteEtudiant {
       public void setNoteEtudiantModules(List<NoteEtudiantModule> noteEtudiantModules){
           this.noteEtudiantModules = noteEtudiantModules;
      }
+
+	public String getSemestre() {
+		return semestre;
+	}
+
+	public void setSemestre(String semestre) {
+		this.semestre = semestre;
+	}
+	
+
+	public Long getAnneeUniversitaire() {
+		return anneeUniversitaire;
+	}
+
+	public void setAnneeUniversitaire(Long anneeUniversitaire) {
+		this.anneeUniversitaire = anneeUniversitaire;
+	}
+
+	public NoteEtudiant(Long id, Double noteFinale, Resultat resultatFinal, Demmandeur demmandeur,
+			List<NoteEtudiantModule> noteEtudiantModules, String semestre, Long anneeUniversitaire) {
+		super();
+		this.id = id;
+		this.noteFinale = noteFinale;
+		this.resultatFinal = resultatFinal;
+		this.demmandeur = demmandeur;
+		this.noteEtudiantModules = noteEtudiantModules;
+		this.semestre = semestre;
+		this.anneeUniversitaire = anneeUniversitaire;
+	}
+
+	@Override
+	public String toString() {
+		return "NoteEtudiant [id=" + id + ", noteFinale=" + noteFinale + ", resultatFinal=" + resultatFinal
+				+ ", demmandeur=" + demmandeur + ", noteEtudiantModules=" + noteEtudiantModules + ", semestre="
+				+ semestre + ", anneeUniversitaire=" + anneeUniversitaire + "]";
+	}
+
+	
+      
      
 
 
