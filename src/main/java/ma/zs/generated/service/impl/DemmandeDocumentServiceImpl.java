@@ -2,6 +2,8 @@ package ma.zs.generated.service.impl;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +21,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -236,6 +239,7 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 	public int infoDemmandeurPdf(String cin, String libelle) throws DocumentException, FileNotFoundException {
 		Demmandeur demmandeur = demmandeurService.findByCin(cin);
 		TypeDocument typeDocument = typeDocumentService.findByLibelle(libelle);
+
 		String pattern = "dd/MM/yyyy";
 		String pattern2 = "yyyy";
 		String pattern3 = "dd MMMM yyyy ";
@@ -353,93 +357,144 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 				 demmandeur.getNom() + demmandeur.getPrenom() + ".pdf"));
 		document.open();
 		
-		//ParagraphBorder border = new ParagraphBorder();
-		//writer.setPageEvent(border);
 
 		
 		float [] pointColumnWidths1 = {400};
 		PdfPTable table1 = new PdfPTable(pointColumnWidths1);
 		table1.setWidthPercentage(100);
 		
-		Font font2 = FontFactory.getFont(FontFactory.TIMES_BOLD, 9, BaseColor.BLACK);
+		Font font2 = FontFactory.getFont(FontFactory.TIMES_BOLD, 10, BaseColor.BLACK);
 		Paragraph p1 = new Paragraph("Université Cadi Ayyad",font2);
 		p1.setAlignment(Element.ALIGN_LEFT);
-		PdfPCell c = new PdfPCell(p1);
+		
+		Paragraph p11 = new Paragraph("Année universitaire" + "  " 
+		+ noteEtudiant.getAnneeUniversitaire() +"/"+ (noteEtudiant.getAnneeUniversitaire()+1),font2);
+		p11.setAlignment(Element.ALIGN_CENTER);
+		PdfPCell c = new PdfPCell();
+		c.addElement(p1);
+		c.addElement(p11);
 		c.setBorderWidth(2);
-        c.setFixedHeight(45);
+        c.setFixedHeight(40);
 		table1.addCell(c);
 		document.add(table1);
 		
-		Font font1 = FontFactory.getFont(FontFactory.TIMES, 9, BaseColor.BLACK);
+		Font font1 = FontFactory.getFont(FontFactory.TIMES, 10, BaseColor.BLACK);
 		Paragraph p2 = new Paragraph("Faculté des Sciences et Techniques Gueliz-Marrakech", font1);
 		p2.setAlignment(Element.ALIGN_LEFT);
 		document.add(p2);
 		
 		Font font3 = FontFactory.getFont(FontFactory.HELVETICA_BOLDOBLIQUE, 20, Font.UNDERLINE);
-		Paragraph p3 = new Paragraph("\n " + typeDocument.getLibelle(), font3);
+		Paragraph p3 = new Paragraph( typeDocument.getLibelle(), font3);
 		p3.setAlignment(Element.ALIGN_CENTER);
 		document.add(p3);
 		
-		Font font4 = FontFactory.getFont(FontFactory.TIMES, 11);
-		Paragraph p4 = new Paragraph("\n\n\n" +   "Nom Prénom :  " +"          "+ demmandeur.getNom() 
-		        + " " + demmandeur.getPrenom() + "\n"
-				+ "N° :" + "    " + demmandeur.getCodeApogee() + "          "
-				+ "CNE : " + "    " + demmandeur.getCne() +"\n"
-				+ "Né(e) le" + " " + simpleDateFormat.format(demmandeur.getDateNaissance()) + "    " + "à : " + " " 
-				+ demmandeur.getVilleNaissance()  + "\n"
-				+ "Inscrit(e) en semestre 6" + "  " + demmandeur.getFiliere().getLibelle()  
-				+ "a obtenu les notes suivantes :"  + "\n\n" , font4);
+		Font font4 = FontFactory.getFont(FontFactory.TIMES, 12);
+		Phrase p4 = new Phrase("\n\n" +   "Nom Prénom :  " +"          " , font4);
+		Font fontph4 = FontFactory.getFont(FontFactory.TIMES_BOLD, 12, BaseColor.BLACK);
+		Phrase ph4 = new Phrase( demmandeur.getNom()  + " " + demmandeur.getPrenom() + "\n" , fontph4);
+		Paragraph p5 = new Paragraph( "N° :" + "    " + demmandeur.getCodeApogee() + "          "
+		+ "CNE : " + "    " + demmandeur.getCne() +"\n"
+		+ "Né(e) le" + " " + simpleDateFormat.format(demmandeur.getDateNaissance()) + "    " + "à : " + " " 
+		+ demmandeur.getVilleNaissance()  + "\n"
+		+ "Inscrit(e) en"+ "  " +noteEtudiant.getSemestre() + "  " + demmandeur.getFiliere().getLibelle()  + "\n"
+		+ "a obtenu les notes suivantes :"  + "\n\n" , font4);
 		document.add(p4);
+		document.add(ph4);
+		document.add(p5);
+
 		
-		float [] pointColumnWidths = {200};
+		float [] pointColumnWidths = {200,200,200,200};
 		 PdfPTable table = new PdfPTable(pointColumnWidths); 
 		 table.setWidthPercentage(100);
 		
-		 PdfPCell c1 = new PdfPCell(new Paragraph("Module" + "                            " + "Note/Baréme" +"              "
-				 +"Résultat"+ "                            " + "PtsJury"));
-		 table.addCell(c1);
+		
+		 PdfPCell m =new PdfPCell(new Paragraph("         "+"Module",font4));
+		 m.setFixedHeight(30);
+		 PdfPCell n = new PdfPCell(new Paragraph("       "+"Note/Barème",font4));
+		 n.setFixedHeight(30);
+		 PdfPCell r = new PdfPCell(new Paragraph("        "+"Résultat",font4));
+		 r.setFixedHeight(30);
+		 PdfPCell p = new PdfPCell(new Paragraph("          "+"Pts Jury",font4));
+		 p.setFixedHeight(30);
+		 
+		  // Adding cells to the table       
+	      table.addCell(m);       
+	      table.addCell(n);       
+	      table.addCell(r);       
+	      table.addCell(p);
+		 
 		 List<NoteEtudiantModule> noteEtudiantModules = noteEtudiant.getNoteEtudiantModules();
 		 for (NoteEtudiantModule noteEtudiantModule : noteEtudiantModules) {
-			 PdfPCell c2 = new PdfPCell(new Paragraph(noteEtudiantModule.getModule().getLibelle()+ "                 " + noteEtudiantModule.getNote()
-			 +"              " +noteEtudiantModule.getResultat().getLibelle()+ "               " + noteEtudiantModule.getPtsJury()));
-			 table.addCell(c2);
-			
-		}
-		/* m.setBorderColorRight(BaseColor.WHITE);   
-		 Phrase m =new Phrase("Module");
-		 Phrase n =new Phrase("Note/Barème");
-		 Phrase r =new Phrase("Résultat");
-		 Phrase p =new Phrase("Pts Jury");
-		 
-		 Phrase m1 =new Phrase("Thermodynamique");
-		 Phrase n1 =new Phrase("10/20");
-		 Phrase r1 =new Phrase("V");
-		 Phrase p10 =new Phrase(" ");
-		 PdfPCell m2 = new PdfPCell(new Paragraph("Mécanique du point et optique géométrique"));
-		 PdfPCell n2 = new PdfPCell(new Paragraph("10/20"));
-		 PdfPCell r2 = new PdfPCell(new Paragraph("VAR"));
-		 PdfPCell p2 = new PdfPCell(new Paragraph(" "));
-		 
-		 PdfPCell c9 = new PdfPCell(new Paragraph("Analyse1 : Fonction d'une variable réelle "));
-		 
-	      // Adding cells to the table       
-	   /*   table.addCell(new PdfPCell(m));       
-	      table.addCell(new PdfPCell(n));       
-	      table.addCell(new PdfPCell(r));       
-	      table.addCell(new PdfPCell(p));       
-	      table.addCell(new PdfPCell(m1));       
-	      table.addCell(new PdfPCell(n1));
-	      table.addCell(new PdfPCell(r1));
-	      table.addCell(new PdfPCell(p10));
-	      table.addCell(c5);
-	      table.addCell(c6);
-	      table.addCell(c7);
-	      table.addCell(c8);*/
-	     // table.addCell();
-	         
+			 
+		 PdfPCell m1 = new PdfPCell(new Paragraph(noteEtudiantModule.getModule().getLibelle(),font4));
+		// m1.setFixedHeight(25);
+		 PdfPCell n1 = new PdfPCell(new Paragraph("           "+noteEtudiantModule.getNote()+"/20",font4));
+		 PdfPCell r1 = new PdfPCell(new Paragraph("             "+noteEtudiantModule.getResultat().getLibelle(),font4));
+		 PdfPCell p10 = new PdfPCell(new Paragraph("           "+noteEtudiantModule.getPtsJury(),font4));
+	             
+	      table.addCell(m1);       
+	      table.addCell(n1);
+	      table.addCell(r1);
+	      table.addCell(p10); }
+	      
+	     
 	      // Adding Table to document        
-	      document.add(table);                  
-	         
+	      document.add(table);  
+	          
+	      Paragraph p6 = new Paragraph("Résultat" + "                                        " + noteEtudiant.getNoteFinale() + 
+	      "/20"+"                                "  + noteEtudiant.getResultatFinal().getLibelle(),fontph4);
+	      document.add(p6);
+	      
+	      Paragraph p7 = new Paragraph("\n\n");
+	      document.add(p7);
+	      
+	      Image img, img1;
+	      
+	      try {
+	    	  img = Image.getInstance("codeBarre.jpg");
+	    	  img.setAlignment(Element.ALIGN_RIGHT);
+	    	  document.add(img);
+	      } catch (MalformedURLException e) {
+	    	  e.printStackTrace();
+	      } catch (IOException e) {
+	    	  e.printStackTrace();
+	      }
+	      
+	      float [] pointColumnWidths2 = {60};
+			PdfPTable table2 = new PdfPTable(pointColumnWidths2);
+			table2.setWidthPercentage(10);
+		
+			Font fontt = FontFactory.getFont(FontFactory.TIMES_BOLDITALIC, 11, BaseColor.BLACK);
+			Paragraph pp = new Paragraph(" " +noteEtudiant.getAnneeUniversitaire()+ " ",fontt);
+			pp.setAlignment(Element.ALIGN_CENTER);
+			
+			PdfPCell cc = new PdfPCell();
+	        c.setFixedHeight(20);
+			cc.addElement(pp);
+			
+			table2.addCell(cc);
+			document.add(table2);
+			
+	      
+	      try {
+	    	  img1 = Image.getInstance("fstg.jpg");
+	    	  img1.setAlignment(Element.ALIGN_RIGHT);
+	    	  document.add(img1);
+	      } catch (MalformedURLException e) {
+	    	  e.printStackTrace();
+	      } catch (IOException e) {
+	    	  e.printStackTrace();
+	      }
+	      
+	      Paragraph phh1 = new Paragraph("\n\n\n\n"+"                              " + "Fait a Marrakech" + "\n" , font4);
+	      Paragraph phh2 = new Paragraph( "Le Doyen de la Faculté des Sciences et Techniques de Marrakech" + "\n\n\n" , font4);
+	      Paragraph phh3 = new Paragraph( "   "+"Avis important : Il ne peut être délivré qu'un seul exemplaire du présent relevé de note."
+	      		+ "Aucun duplicata ne sera fourni.", font1);
+	      
+         
+	      document.add(phh1);
+	      document.add(phh2);
+	      document.add(phh3);
 	      // Closing the document       
 	      document.close();
 
