@@ -61,19 +61,13 @@ public class DemmandeDocumentConverter extends AbstractConverter<DemmandeDocumen
 			 if(item.getId()!=null)
 				vo.setId(NumberUtil.toString(item.getId()));
             if(item.getEtatDemmande()!=null && this.etatDemmande) {
-				    etatDemmandeConverter.init(false);
 				   vo.setEtatDemmandeVo(etatDemmandeConverter.toVo(item.getEtatDemmande())) ;
-			        etatDemmandeConverter.init(true);
 			   } 
             if(item.getDemmandeur()!=null && this.demmandeur) {
-				    demmandeurConverter.init(false);
 				   vo.setDemmandeurVo(demmandeurConverter.toVo(item.getDemmandeur())) ;
-			        demmandeurConverter.init(true);
 			   } 
             if(item.getTypeDocument()!=null && this.typeDocument) {
-				    typeDocumentConverter.init(false);
 				   vo.setTypeDocumentVo(typeDocumentConverter.toVo(item.getTypeDocument())) ;
-			        typeDocumentConverter.init(true);
 			   } 
 
  			return vo;
