@@ -27,8 +27,10 @@ public interface DemmandeDocumentService {
      */
 	DemmandeDocument findById(Long id);
 	
-	DemmandeDocument findByAnneeUniversitaire(Long anneeUniversitaire);
+	DemmandeDocument findBySemestreLibelleeAndAnneeUniversitaire(String libellee, Long anneeUniversitaire);
 	
+	  DemmandeDocument findByAnneeUniversitaire(Long anneeUniversitaire);
+
 	List<DemmandeDocument> findByEtatDemmandeLibelle(String libelle);
     int deleteByEtatDemmandeLibelle(String libelle);       
 			

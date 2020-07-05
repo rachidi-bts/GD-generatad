@@ -52,7 +52,8 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 
    @Autowired
    private DemmandeDocumentDao demmandeDocumentDao;
-   
+   @Autowired
+   private DemmandeDocumentService demmandeDocumentService ;
    @Autowired
     private EtatDemmandeService etatDemmandeService ;
    @Autowired
@@ -139,8 +140,13 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 	}
 	
 	@Override
-	public DemmandeDocument findByAnneeUniversitaire(Long anneeUniversitaire) {
-		return demmandeDocumentDao.findByAnneeUniversitaire(anneeUniversitaire);
+	public DemmandeDocument findBySemestreLibelleeAndAnneeUniversitaire(String libellee, Long anneeUniversitaire) {
+		return demmandeDocumentDao.findBySemestreLibelleeAndAnneeUniversitaire(libellee, anneeUniversitaire);
+	}
+	
+	@Override
+	public DemmandeDocument findByAnneeUniversitaire( Long anneeUniversitaire) {
+		return demmandeDocumentDao.findByAnneeUniversitaire( anneeUniversitaire);
 	}
 
 	@Override	
@@ -248,7 +254,7 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 	public int infoDemmandeurPdf(String cin, String libelle,Long anneeUniversitaire) throws DocumentException, FileNotFoundException {
 		Demmandeur demmandeur = demmandeurService.findByCin(cin);
 		TypeDocument typeDocument = typeDocumentService.findByLibelle(libelle);
-		DemmandeDocument demmandeDocument = demmandeDocumentDao.findByAnneeUniversitaire(anneeUniversitaire);
+		DemmandeDocument demmandeDocument = demmandeDocumentService.findByAnneeUniversitaire( anneeUniversitaire);
 
 		String pattern = "dd/MM/yyyy";
 		String pattern2 = "yyyy";
@@ -359,7 +365,7 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 	public int infoRelevePdf(String cne,String libellee, Long anneUniversitaire, String libelle) throws DocumentException, FileNotFoundException {
 		Demmandeur demmandeur = demmandeurService.findByCne(cne);
 		TypeDocument typeDocument = typeDocumentService.findByLibelle(libelle);
-		//DemmandeDocument demmandeDocument = demmandeDocumentDao.findByAnneeUniversitaire(anneeUniversitaire);
+		DemmandeDocument demmandeDocument = demmandeDocumentService.findBySemestreLibelleeAndAnneeUniversitaire(libellee, anneUniversitaire);
 
 		NoteEtudiant noteEtudiant = noteEtudiantService.findByDemmandeurCneAndSemestreLibelleeAndAnneeUniversitaire(cne, libellee, anneUniversitaire);
 		String pattern = "dd MMMM yyyy ";
@@ -516,7 +522,7 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 	//Excel
 	@Override
 	public int listeDemmandeurExcel(List<Demmandeur> demmandeurs) {Workbook workbook = new XSSFWorkbook();
-	String pattern = " yyyy ";
+	String pattern = " dd/MM/yyyy ";
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
     Sheet sheet = workbook.createSheet("Liste des étudiants");
 	Row header = sheet.createRow(0);
@@ -526,10 +532,12 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
       header.createCell(2).setCellValue("Code_Apogee");
       header.createCell(3).setCellValue("Prénom");
       header.createCell(4).setCellValue("Nom");
-      header.createCell(5).setCellValue("Ville_Naissance");
-      header.createCell(6).setCellValue("Annee_Inscription");
-   //   header.createCell(7).setCellValue("Dîplome");
-      header.createCell(7).setCellValue("Adresse");
+      header.createCell(5).setCellValue("Date_Naissance");
+      header.createCell(6).setCellValue("Ville_Naissance");
+      header.createCell(7).setCellValue("Annee_Inscription");
+     // header.createCell(7).setCellValue("Dîplome");
+    //  header.createCell(8).setCellValue("Filière");
+      header.createCell(8).setCellValue("Adresse_Universitaire");
 System.out.println(demmandeurs);
 
 
@@ -541,12 +549,12 @@ System.out.println(demmandeurs);
          row.createCell(2).setCellValue(demmandeur.getCodeApogee());
          row.createCell(3).setCellValue(demmandeur.getPrenom());
          row.createCell(4).setCellValue(demmandeur.getNom());
-         row.createCell(5).setCellValue(demmandeur.getVilleNaissance());
-         row.createCell(6).setCellValue(demmandeur.getAnneeInscription());
-    //     row.createCell(7).setCellValue(demmandeur.getFiliere().getTypeFiliere().getLibelle()+" " +
-      //                                  demmandeur.getFiliere().getLibelle());
-         row.createCell(7).setCellValue(demmandeur.getPrenom() + "." + demmandeur.getNom() +
-        		                         "@edu.uca.ma");
+         row.createCell(5).setCellValue(simpleDateFormat.format(demmandeur.getDateNaissance()));
+         row.createCell(6).setCellValue(demmandeur.getVilleNaissance());
+         row.createCell(7).setCellValue(demmandeur.getAnneeInscription());
+         //row.createCell(8).setCellValue(demmandeur.getFiliere().getTypeFiliere().getLibelle());
+         //row.createCell(8).setCellValue(demmandeur.getFiliere().getLibelle());
+         row.createCell(8).setCellValue(demmandeur.getLogin());
 
 	}
     // String fileLocation = "C:/Users/hp/Desktop/";

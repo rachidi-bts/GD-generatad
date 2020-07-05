@@ -69,9 +69,14 @@ public class DemmandeDocumentRest {
 		return  demmandeDocumentConverter.toVo(demmandeDocumentService.findById(id));
 	}
 	
+	@GetMapping("/libelle/{libellee}/anneeUniversitaire/{anneeUniversitaire}")
+	DemmandeDocument findBySemestreLibelleeAndAnneeUniversitaire(@PathVariable String libellee,@PathVariable Long anneeUniversitaire) {
+		return  demmandeDocumentService.findBySemestreLibelleeAndAnneeUniversitaire(libellee, anneeUniversitaire);
+	}
+	
 	@GetMapping("/anneeUniversitaire/{anneeUniversitaire}")
-	public DemmandeDocumentVo findByAnneeUniversitaire(@PathVariable Long anneeUniversitaire){
-		return  demmandeDocumentConverter.toVo(demmandeDocumentService.findByAnneeUniversitaire(anneeUniversitaire));
+	DemmandeDocument findByAnneeUniversitaire(@PathVariable Long anneeUniversitaire) {
+		return  demmandeDocumentService.findByAnneeUniversitaire( anneeUniversitaire);
 	}
 
     @ApiOperation("Finds a demmandeDocument by libelle of etatDemmande")
