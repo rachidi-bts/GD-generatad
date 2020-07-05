@@ -5,7 +5,8 @@ import ma.zs.generated.bean.Semestre;
 import ma.zs.generated.ws.rest.provided.vo.SemestreVo;
 
 public interface SemestreService {
-
+ 
+	
 	/**
 	 * 
 	 * find all Semestre in database

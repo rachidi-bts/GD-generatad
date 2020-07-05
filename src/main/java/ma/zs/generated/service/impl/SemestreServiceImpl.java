@@ -17,6 +17,7 @@ import ma.zs.generated.ws.rest.provided.vo.SemestreVo;
 @Service
 public class SemestreServiceImpl implements SemestreService {
 
+	
    @Autowired
    private SemestreDao semestreDao;
    

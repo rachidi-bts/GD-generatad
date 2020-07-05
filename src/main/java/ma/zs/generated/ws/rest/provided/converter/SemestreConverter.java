@@ -22,6 +22,7 @@ public class SemestreConverter extends AbstractConverter<Semestre,SemestreVo>{
       	Semestre item = new Semestre();
 			 if(StringUtil.isNotEmpty(vo.getLibellee()))
                   item.setLibellee(vo.getLibellee());
+			 
 			 if(StringUtil.isNotEmpty(vo.getId()))
                   item.setId(NumberUtil.toLong(vo.getId()));
 

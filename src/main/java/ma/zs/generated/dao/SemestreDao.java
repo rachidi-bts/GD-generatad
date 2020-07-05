@@ -11,6 +11,7 @@ import ma.zs.generated.bean.Semestre;
 public interface SemestreDao extends JpaRepository<Semestre,Long> {
 
 	Semestre findByLibellee(String libellee);
+	
        int deleteByLibellee(String libellee);
 
 
