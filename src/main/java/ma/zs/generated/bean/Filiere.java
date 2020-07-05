@@ -49,6 +49,14 @@ public class Filiere {
           this.typeFiliere = typeFiliere;
      }
 
+	public Filiere(Long id, String abrv, String libelle, TypeFiliere typeFiliere) {
+		super();
+		this.id = id;
+		this.abrv = abrv;
+		this.libelle = libelle;
+		this.typeFiliere = typeFiliere;
+	}
+
 
 
 }

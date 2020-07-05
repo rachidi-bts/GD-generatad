@@ -33,6 +33,12 @@ public class Resultat {
           this.libelle = libelle;
      }
 
+	public Resultat(Long id, String libelle) {
+		super();
+		this.id = id;
+		this.libelle = libelle;
+	}
+
 
 
 }

@@ -132,9 +132,9 @@ public class NoteEtudiantRest {
 	public void setNoteEtudiantService( NoteEtudiantService noteEtudiantService){
 	 	this.noteEtudiantService=noteEtudiantService;
 	}
-	@GetMapping("/findByDemmandeurCneAndSemestreAndAnneeUniversitaire/cne/{cne}/semestre/{semestre}/anneeUniversitaire/{anneeUniversitaire}")
-	public NoteEtudiant findByDemmandeurCneAndSemestreAndAnneeUniversitaire(@PathVariable String cne,@PathVariable String semestre,@PathVariable Long anneeUniversitaire) {
-		return noteEtudiantService.findByDemmandeurCneAndSemestreAndAnneeUniversitaire(cne, semestre,anneeUniversitaire);
+	@GetMapping("/findByDemmandeurCneAndSemestreLibelleeAndAnneeUniversitaire/cne/{cne}/libellee/{libellee}/anneeUniversitaire/{anneeUniversitaire}")
+	public NoteEtudiant findByDemmandeurCneAndSemestreLibelleeAndAnneeUniversitaire(@PathVariable String cne,@PathVariable String libellee,@PathVariable Long anneeUniversitaire) {
+		return noteEtudiantService.findByDemmandeurCneAndSemestreLibelleeAndAnneeUniversitaire(cne, libellee,anneeUniversitaire);
 	}
 
 }

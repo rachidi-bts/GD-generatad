@@ -170,8 +170,8 @@ public class NoteEtudiantServiceImpl implements NoteEtudiantService {
 	 return entityManager.createQuery(query).getResultList();
 	}
 	@Override
-	public NoteEtudiant findByDemmandeurCneAndSemestreAndAnneeUniversitaire(String cne, String semestre,Long anneeUniversitaire) {
-		return noteEtudiantDao.findByDemmandeurCneAndSemestreAndAnneeUniversitaire(cne,semestre,anneeUniversitaire);
+	public NoteEtudiant findByDemmandeurCneAndSemestreLibelleeAndAnneeUniversitaire(String cne, String libellee,Long anneeUniversitaire) {
+		return noteEtudiantDao.findByDemmandeurCneAndSemestreLibelleeAndAnneeUniversitaire(cne,libellee,anneeUniversitaire);
 	}
   
  

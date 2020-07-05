@@ -7,11 +7,12 @@ public class NoteEtudiantVo {
      private String noteFinale ;
    
      private String id ;
-   
+    
+     private String anneeUniversitaire;
 
 	private ResultatVo resultatFinalVo ;
 	private DemmandeurVo demmandeurVo ;
-
+    private SemestreVo semestreVo;
      private List<NoteEtudiantModuleVo> noteEtudiantModulesVo ;
 
      private String noteFinaleMax ;
@@ -37,7 +38,14 @@ public class NoteEtudiantVo {
           this.id = id;
      }
 
+      public String getAnneeUniversitaire() {
+  		return this.anneeUniversitaire;
+  	}
 
+
+  	public void setAnneeUniversitaire(String anneeUniversitaire) {
+  		this.anneeUniversitaire = anneeUniversitaire;
+  	}
 
       public String getNoteFinaleMax(){
           return this.noteFinaleMax;
@@ -73,6 +81,14 @@ public class NoteEtudiantVo {
      public void setDemmandeurVo(DemmandeurVo demmandeurVo){
           this.demmandeurVo = demmandeurVo;
      }
+     
+     public SemestreVo getSemestreVo(){
+         return this.semestreVo;
+    }
+      
+    public void setSemestreVo(SemestreVo semestreVo){
+         this.semestreVo = semestreVo;
+    }
    
 
       public List<NoteEtudiantModuleVo> getNoteEtudiantModulesVo(){

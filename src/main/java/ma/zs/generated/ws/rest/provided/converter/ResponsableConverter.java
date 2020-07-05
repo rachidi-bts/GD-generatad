@@ -53,9 +53,9 @@ public class ResponsableConverter extends AbstractConverter<Responsable,Responsa
 			 if(item.getId()!=null)
 				vo.setId(NumberUtil.toString(item.getId()));
             if(item.getTypeFiliere()!=null && this.typeFiliere) {
-				    typeFiliereConverter.init(false);
+				  //  typeFiliereConverter.init(false);
 				   vo.setTypeFiliereVo(typeFiliereConverter.toVo(item.getTypeFiliere())) ;
-			        typeFiliereConverter.init(true);
+			       // typeFiliereConverter.init(true);
 			   } 
 
  			return vo;

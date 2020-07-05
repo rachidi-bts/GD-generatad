@@ -104,9 +104,9 @@ public class DemmandeurConverter extends AbstractConverter<Demmandeur,Demmandeur
 				vo.setNom(item.getNom());
 			
             if(item.getFiliere()!=null && this.filiere) {
-				    filiereConverter.init(false);
+				   
 				   vo.setFiliereVo(filiereConverter.toVo(item.getFiliere())) ;
-			        filiereConverter.init(true);
+			        
 			   } 
 
  			return vo;

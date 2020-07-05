@@ -53,9 +53,9 @@ public class FiliereConverter extends AbstractConverter<Filiere,FiliereVo>{
 			 if(item.getId()!=null)
 				vo.setId(NumberUtil.toString(item.getId()));
             if(item.getTypeFiliere()!=null && this.typeFiliere) {
-				    typeFiliereConverter.init(false);
+				   
 				   vo.setTypeFiliereVo(typeFiliereConverter.toVo(item.getTypeFiliere())) ;
-			        typeFiliereConverter.init(true);
+			        
 			   } 
 
  			return vo;

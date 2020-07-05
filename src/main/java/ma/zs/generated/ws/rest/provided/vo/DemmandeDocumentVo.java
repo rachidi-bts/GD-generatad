@@ -9,8 +9,10 @@ public class DemmandeDocumentVo {
      private String dateValidation ;
    
      private String id ;
+     
+     private String anneeUniversitaire;
    
-
+    private SemestreVo semestreVo;
 	private EtatDemmandeVo etatDemmandeVo ;
 	private DemmandeurVo demmandeurVo ;
 	private TypeDocumentVo typeDocumentVo ;
@@ -41,8 +43,29 @@ public class DemmandeDocumentVo {
           this.dateValidation = dateValidation;
      }
 
+      
 
-     public String getId(){
+     public String getAnneeUniversitaire() {
+		return this.anneeUniversitaire;
+	}
+
+
+	public void setAnneeUniversitaire(String anneeUniversitaire) {
+		this.anneeUniversitaire = anneeUniversitaire;
+	}
+
+
+	public SemestreVo getSemestreVo() {
+		return semestreVo;
+	}
+
+
+	public void setSemestreVo(SemestreVo semestreVo) {
+		this.semestreVo = semestreVo;
+	}
+
+
+	public String getId(){
           return this.id;
      }
       public void setId(String id){

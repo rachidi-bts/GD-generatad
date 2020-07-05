@@ -17,11 +17,11 @@ import com.itextpdf.text.DocumentException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import ma.zs.generated.bean.DemmandeDocument; 
+import ma.zs.generated.bean.DemmandeDocument;
+import ma.zs.generated.bean.Demmandeur;
 import ma.zs.generated.service.facade.DemmandeDocumentService;
 import ma.zs.generated.ws.rest.provided.converter.DemmandeDocumentConverter;
 import ma.zs.generated.ws.rest.provided.vo.DemmandeDocumentVo;
-import ma.zs.generated.ws.rest.provided.vo.DemmandeurVo;
 
 @Api("Manages demmandeDocument services")
 @RestController
@@ -69,7 +69,10 @@ public class DemmandeDocumentRest {
 		return  demmandeDocumentConverter.toVo(demmandeDocumentService.findById(id));
 	}
 	
-
+	@GetMapping("/anneeUniversitaire/{anneeUniversitaire}")
+	public DemmandeDocumentVo findByAnneeUniversitaire(@PathVariable Long anneeUniversitaire){
+		return  demmandeDocumentConverter.toVo(demmandeDocumentService.findByAnneeUniversitaire(anneeUniversitaire));
+	}
 
     @ApiOperation("Finds a demmandeDocument by libelle of etatDemmande")
 	@GetMapping("/etatDemmande/libelle/{libelle}")
@@ -127,16 +130,20 @@ public class DemmandeDocumentRest {
 	return demmandeDocumentConverter.toVo(demmandeDocumentService.findByDemmandeurFiliereAbrv(abrv));
 	}
 
-	@GetMapping("/infoDemmandeurPdf/cin/{cin}/libelle/{libelle}")
-	public int infoDemmandeurPdf(@PathVariable String cin, @PathVariable String libelle) throws DocumentException, FileNotFoundException{
-		return demmandeDocumentService.infoDemmandeurPdf(cin, libelle);
+	@GetMapping("/infoDemmandeurPdf/cin/{cin}/libelle/{libelle}/anneeUniversitaire/{anneeUniversitaire}")
+	public int infoDemmandeurPdf(@PathVariable String cin, @PathVariable String libelle,@PathVariable Long anneeUniversitaire) throws DocumentException, FileNotFoundException{
+		return demmandeDocumentService.infoDemmandeurPdf(cin, libelle, anneeUniversitaire);
 	} 
 	
-	@GetMapping("/infoRelevePdf/cne/{cne}/semestre/{semestre}/anneeUniversitaire/{anneeUniversitaire}/libelle/{libelle}")
-	public int infoRelevePdf(@PathVariable String cne,@PathVariable String semestre,@PathVariable Long anneeUniversitaire, @PathVariable String libelle) throws DocumentException, FileNotFoundException{
-		return demmandeDocumentService.infoRelevePdf(cne,semestre,anneeUniversitaire, libelle);
+	@GetMapping("/infoRelevePdf/cne/{cne}/libellee/{libellee}/anneeUniversitaire/{anneeUniversitaire}/libelle/{libelle}")
+	public int infoRelevePdf(@PathVariable String cne,@PathVariable String libellee,@PathVariable Long anneeUniversitaire, @PathVariable String libelle) throws DocumentException, FileNotFoundException{
+		return demmandeDocumentService.infoRelevePdf(cne,libellee,anneeUniversitaire, libelle);
 	} 
 	
+	@PostMapping("/listeDemmandeurExcel")
+	public int listeDemmandeurExcel(@RequestBody List<Demmandeur> demmandeurs) {
+		return demmandeDocumentService.listeDemmandeurExcel(demmandeurs);
+	}
 	
 	@ApiOperation("Finds demmandeDocument by id of demmandeur")
 	@GetMapping("/demmandeur/id/{id}")

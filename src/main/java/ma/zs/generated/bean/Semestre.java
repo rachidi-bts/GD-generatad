@@ -7,16 +7,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
 @Entity
-public class Module {
+public class Semestre {
 
      @Id
      @GeneratedValue(strategy = GenerationType.AUTO)
      private Long id;
 
-     private String libelle ;
+     private String libellee ;
 
 
-     public Module(){
+     public Semestre(){
        super();
      }
 
@@ -26,17 +26,17 @@ public class Module {
      public void setId(Long id){
           this.id = id;
      }
-     public String getLibelle(){
-          return this.libelle;
+     public String getLibellee(){
+          return this.libellee;
      }
-     public void setLibelle(String libelle){
-          this.libelle = libelle;
+     public void setLibellee(String libellee){
+          this.libellee = libellee;
      }
 
-	public Module(Long id, String libelle) {
+	public Semestre(Long id, String libellee) {
 		super();
 		this.id = id;
-		this.libelle = libelle;
+		this.libellee = libellee;
 	}
 
 

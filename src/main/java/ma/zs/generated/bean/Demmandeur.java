@@ -132,6 +132,27 @@ public class Demmandeur {
           this.cne = cne;
      }
 
+	public Demmandeur(Long id, String password, String paysNaissance, Long anneeInscription, String login, String cne,
+			Long nbreAttestInscrRest, Long nbreCertScolRest, String prenom, String cin, Date dateNaissance,
+			String villeNaissance, String codeApogee, String nom, Filiere filiere) {
+		super();
+		this.id = id;
+		this.password = password;
+		this.paysNaissance = paysNaissance;
+		this.anneeInscription = anneeInscription;
+		this.login = login;
+		this.cne = cne;
+		this.nbreAttestInscrRest = nbreAttestInscrRest;
+		this.nbreCertScolRest = nbreCertScolRest;
+		this.prenom = prenom;
+		this.cin = cin;
+		this.dateNaissance = dateNaissance;
+		this.villeNaissance = villeNaissance;
+		this.codeApogee = codeApogee;
+		this.nom = nom;
+		this.filiere = filiere;
+	}
+
 
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import com.itextpdf.text.DocumentException;
 
 import ma.zs.generated.bean.DemmandeDocument;
+import ma.zs.generated.bean.Demmandeur;
 import ma.zs.generated.ws.rest.provided.vo.DemmandeDocumentVo;
 
 public interface DemmandeDocumentService {
@@ -26,6 +27,8 @@ public interface DemmandeDocumentService {
      */
 	DemmandeDocument findById(Long id);
 	
+	DemmandeDocument findByAnneeUniversitaire(Long anneeUniversitaire);
+	
 	List<DemmandeDocument> findByEtatDemmandeLibelle(String libelle);
     int deleteByEtatDemmandeLibelle(String libelle);       
 			
@@ -43,10 +46,12 @@ public interface DemmandeDocumentService {
    	
     public List<DemmandeDocument> findByDemmandeurFiliereAbrv(String abrv);
     
-    public int infoDemmandeurPdf(String cin, String libelle) throws DocumentException, FileNotFoundException;
+    public int infoDemmandeurPdf(String cin, String libelle,Long anneeUniversitaire) throws DocumentException, FileNotFoundException;
     
-	public int infoRelevePdf(String cne,String semestre, Long anneeUniversitaire, String libelle) throws DocumentException, FileNotFoundException;
-			
+	public int infoRelevePdf(String cne,String libellee, Long anneeUniversitaire, String libelle) throws DocumentException, FileNotFoundException;
+		
+	public int listeDemmandeurExcel(List<Demmandeur> demmandeurs);
+	
     List<DemmandeDocument> findByDemmandeurId(Long id);
     int deleteByDemmandeurId(Long id);
     

@@ -49,6 +49,14 @@ public class Responsable {
           this.typeFiliere = typeFiliere;
      }
 
+	public Responsable(Long id, String password, String login, TypeFiliere typeFiliere) {
+		super();
+		this.id = id;
+		this.password = password;
+		this.login = login;
+		this.typeFiliere = typeFiliere;
+	}
+
 
 
 }

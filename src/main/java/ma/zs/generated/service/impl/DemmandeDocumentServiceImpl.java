@@ -11,6 +11,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -133,6 +137,11 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 	public DemmandeDocument findById(Long id){
 		return demmandeDocumentDao.getOne(id);
 	}
+	
+	@Override
+	public DemmandeDocument findByAnneeUniversitaire(Long anneeUniversitaire) {
+		return demmandeDocumentDao.findByAnneeUniversitaire(anneeUniversitaire);
+	}
 
 	@Override	
 	public DemmandeDocument save (DemmandeDocument demmandeDocument){
@@ -236,9 +245,10 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 	
 	//PDF
 	@Override
-	public int infoDemmandeurPdf(String cin, String libelle) throws DocumentException, FileNotFoundException {
+	public int infoDemmandeurPdf(String cin, String libelle,Long anneeUniversitaire) throws DocumentException, FileNotFoundException {
 		Demmandeur demmandeur = demmandeurService.findByCin(cin);
 		TypeDocument typeDocument = typeDocumentService.findByLibelle(libelle);
+		DemmandeDocument demmandeDocument = demmandeDocumentDao.findByAnneeUniversitaire(anneeUniversitaire);
 
 		String pattern = "dd/MM/yyyy";
 		String pattern2 = "yyyy";
@@ -285,7 +295,7 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 				+ " " + simpleDateFormat3.format(demmandeur.getDateNaissance()) + " " + "à" + " " +
 				demmandeur.getVilleNaissance() + " " + "(" + demmandeur.getPaysNaissance() + ")" + "\n\n" + "   "
 				+ "est régulièrement inscrit(e) à la Faculté des Sciences et Techniques Gueliz-Marrakech pour" + "\n" + "   "
-				+ "l'année universitaire" + " " + demmandeur.getAnneeInscription() + "." + "\n\n" + "   "
+				+ "l'année universitaire" + " " + demmandeDocument.getAnneeUniversitaire() + "." + "\n\n" + "   "
 				, font);
 		
 		Font fontt = FontFactory.getFont(FontFactory.TIMES, 11, Font.UNDERLINE);
@@ -346,10 +356,12 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 	private NoteEtudiantService noteEtudiantService;
 	//Relevé
 	@Override
-	public int infoRelevePdf(String cne,String semestre, Long anneUniversitaire, String libelle) throws DocumentException, FileNotFoundException {
+	public int infoRelevePdf(String cne,String libellee, Long anneUniversitaire, String libelle) throws DocumentException, FileNotFoundException {
 		Demmandeur demmandeur = demmandeurService.findByCne(cne);
 		TypeDocument typeDocument = typeDocumentService.findByLibelle(libelle);
-		NoteEtudiant noteEtudiant = noteEtudiantService.findByDemmandeurCneAndSemestreAndAnneeUniversitaire(cne, semestre, anneUniversitaire);
+		//DemmandeDocument demmandeDocument = demmandeDocumentDao.findByAnneeUniversitaire(anneeUniversitaire);
+
+		NoteEtudiant noteEtudiant = noteEtudiantService.findByDemmandeurCneAndSemestreLibelleeAndAnneeUniversitaire(cne, libellee, anneUniversitaire);
 		String pattern = "dd MMMM yyyy ";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		Document document = new Document();
@@ -396,7 +408,7 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 		+ "CNE : " + "    " + demmandeur.getCne() +"\n"
 		+ "Né(e) le" + " " + simpleDateFormat.format(demmandeur.getDateNaissance()) + "    " + "à : " + " " 
 		+ demmandeur.getVilleNaissance()  + "\n"
-		+ "Inscrit(e) en"+ "  " +noteEtudiant.getSemestre() + "  " + demmandeur.getFiliere().getLibelle()  + "\n"
+		+ "Inscrit(e) en"+ "  " +noteEtudiant.getSemestre().getLibellee() + "  " + demmandeur.getFiliere().getLibelle()  + "\n"
 		+ "a obtenu les notes suivantes :"  + "\n\n" , font4);
 		document.add(p4);
 		document.add(ph4);
@@ -445,7 +457,7 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 	      "/20"+"                                "  + noteEtudiant.getResultatFinal().getLibelle(),fontph4);
 	      document.add(p6);
 	      
-	      Paragraph p7 = new Paragraph("\n\n");
+	      Paragraph p7 = new Paragraph("\n");
 	      document.add(p7);
 	      
 	      Image img, img1;
@@ -460,7 +472,7 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 	    	  e.printStackTrace();
 	      }
 	      
-	      float [] pointColumnWidths2 = {60};
+	   /*   float [] pointColumnWidths2 = {60};
 			PdfPTable table2 = new PdfPTable(pointColumnWidths2);
 			table2.setWidthPercentage(10);
 		
@@ -473,7 +485,7 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 			cc.addElement(pp);
 			
 			table2.addCell(cc);
-			document.add(table2);
+			document.add(table2);*/
 			
 	      
 	      try {
@@ -486,8 +498,8 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 	    	  e.printStackTrace();
 	      }
 	      
-	      Paragraph phh1 = new Paragraph("\n\n\n\n"+"                              " + "Fait a Marrakech" + "\n" , font4);
-	      Paragraph phh2 = new Paragraph( "Le Doyen de la Faculté des Sciences et Techniques de Marrakech" + "\n\n\n" , font4);
+	      Paragraph phh1 = new Paragraph("\n\n\n\n"+"                                " + "Fait à Marrakech" + "\n" , font4);
+	      Paragraph phh2 = new Paragraph( "Le Doyen de la Faculté des Sciences et Techniques de Marrakech" + "\n\n\n\n" , font4);
 	      Paragraph phh3 = new Paragraph( "   "+"Avis important : Il ne peut être délivré qu'un seul exemplaire du présent relevé de note."
 	      		+ "Aucun duplicata ne sera fourni.", font1);
 	      
@@ -500,6 +512,57 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 
 		return 1;
 	}
+	
+	//Excel
+	@Override
+	public int listeDemmandeurExcel(List<Demmandeur> demmandeurs) {Workbook workbook = new XSSFWorkbook();
+	String pattern = " yyyy ";
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+    Sheet sheet = workbook.createSheet("Liste des étudiants");
+	Row header = sheet.createRow(0);
+
+      header.createCell(0).setCellValue("Cne");
+      header.createCell(1).setCellValue("Cin");
+      header.createCell(2).setCellValue("Code_Apogee");
+      header.createCell(3).setCellValue("Prénom");
+      header.createCell(4).setCellValue("Nom");
+      header.createCell(5).setCellValue("Ville_Naissance");
+      header.createCell(6).setCellValue("Annee_Inscription");
+   //   header.createCell(7).setCellValue("Dîplome");
+      header.createCell(7).setCellValue("Adresse");
+System.out.println(demmandeurs);
+
+
+      int rowNum = 1;
+     for (Demmandeur demmandeur : demmandeurs) {
+         Row row = sheet.createRow(rowNum++);
+         row.createCell(0).setCellValue(demmandeur.getCne());
+         row.createCell(1).setCellValue(demmandeur.getCin());
+         row.createCell(2).setCellValue(demmandeur.getCodeApogee());
+         row.createCell(3).setCellValue(demmandeur.getPrenom());
+         row.createCell(4).setCellValue(demmandeur.getNom());
+         row.createCell(5).setCellValue(demmandeur.getVilleNaissance());
+         row.createCell(6).setCellValue(demmandeur.getAnneeInscription());
+    //     row.createCell(7).setCellValue(demmandeur.getFiliere().getTypeFiliere().getLibelle()+" " +
+      //                                  demmandeur.getFiliere().getLibelle());
+         row.createCell(7).setCellValue(demmandeur.getPrenom() + "." + demmandeur.getNom() +
+        		                         "@edu.uca.ma");
+
+	}
+    // String fileLocation = "C:/Users/hp/Desktop/";
+     try {
+	     FileOutputStream outputStream = new FileOutputStream("Liste des étudiants.xlsx");
+		workbook.write(outputStream);
+	     workbook.close();
+
+	} catch (IOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+     return 1;
+	}
+	
+	
   
  
 }

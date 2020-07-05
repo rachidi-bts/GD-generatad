@@ -33,6 +33,12 @@ public class TypeFiliere {
           this.libelle = libelle;
      }
 
+	public TypeFiliere(Long id, String libelle) {
+		super();
+		this.id = id;
+		this.libelle = libelle;
+	}
+
 
 
 }

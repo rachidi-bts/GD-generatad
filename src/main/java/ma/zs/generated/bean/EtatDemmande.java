@@ -33,6 +33,12 @@ public class EtatDemmande {
           this.libelle = libelle;
      }
 
+	public EtatDemmande(Long id, String libelle) {
+		super();
+		this.id = id;
+		this.libelle = libelle;
+	}
+
 
 
 }

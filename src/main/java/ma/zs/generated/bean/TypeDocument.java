@@ -33,6 +33,12 @@ public class TypeDocument {
           this.libelle = libelle;
      }
 
+	public TypeDocument(Long id, String libelle) {
+		super();
+		this.id = id;
+		this.libelle = libelle;
+	}
+
 
 
 }

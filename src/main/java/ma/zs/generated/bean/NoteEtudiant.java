@@ -3,6 +3,7 @@ package ma.zs.generated.bean;
 import javax.persistence.ManyToOne;
 import java.util.List;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,9 @@ public class NoteEtudiant {
 //     @OneToMany(mappedBy = "noteEtudiant")
   @OneToMany
      private List<NoteEtudiantModule> noteEtudiantModules ;
-     private String semestre;
+    // private String semestre;
+     @OneToOne
+     private Semestre semestre;
      private Long anneeUniversitaire;
      public NoteEtudiant(){
        super();
@@ -64,14 +67,14 @@ public class NoteEtudiant {
           this.noteEtudiantModules = noteEtudiantModules;
      }
 
-	public String getSemestre() {
+
+	public Semestre getSemestre() {
 		return semestre;
 	}
 
-	public void setSemestre(String semestre) {
+	public void setSemestre(Semestre semestre) {
 		this.semestre = semestre;
 	}
-	
 
 	public Long getAnneeUniversitaire() {
 		return anneeUniversitaire;
@@ -81,8 +84,9 @@ public class NoteEtudiant {
 		this.anneeUniversitaire = anneeUniversitaire;
 	}
 
+	
 	public NoteEtudiant(Long id, Double noteFinale, Resultat resultatFinal, Demmandeur demmandeur,
-			List<NoteEtudiantModule> noteEtudiantModules, String semestre, Long anneeUniversitaire) {
+			List<NoteEtudiantModule> noteEtudiantModules, Semestre semestre, Long anneeUniversitaire) {
 		super();
 		this.id = id;
 		this.noteFinale = noteFinale;

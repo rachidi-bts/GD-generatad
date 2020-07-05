@@ -10,7 +10,8 @@ import ma.zs.generated.bean.DemmandeDocument;
 @Repository
 public interface DemmandeDocumentDao extends JpaRepository<DemmandeDocument,Long> {
 
-
+	  DemmandeDocument findByAnneeUniversitaire(Long anneeUniversitaire);
+	
        List<DemmandeDocument> findByEtatDemmandeLibelle(String libelle);
        int deleteByEtatDemmandeLibelle(String libelle); 
        

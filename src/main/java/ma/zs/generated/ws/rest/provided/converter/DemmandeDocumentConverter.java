@@ -18,6 +18,9 @@ public class DemmandeDocumentConverter extends AbstractConverter<DemmandeDocumen
     @Autowired
 	private TypeDocumentConverter typeDocumentConverter ;
     private boolean  typeDocument;
+    @Autowired
+    private SemestreConverter semestreConverter;
+    private boolean semestre;
 
 	public  DemmandeDocumentConverter(){
 		init(true);
@@ -35,10 +38,14 @@ public class DemmandeDocumentConverter extends AbstractConverter<DemmandeDocumen
 			      item.setDateValidation(DateUtil.parse(vo.getDateValidation()));
 			 if(StringUtil.isNotEmpty(vo.getId()))
                   item.setId(NumberUtil.toLong(vo.getId()));
+			 if(StringUtil.isNotEmpty(vo.getAnneeUniversitaire()))
+			      item.setAnneeUniversitaire(NumberUtil.toLong(vo.getAnneeUniversitaire()));
              if(vo.getEtatDemmandeVo()!=null && this.etatDemmande)
 	              item.setEtatDemmande(etatDemmandeConverter.toItem(vo.getEtatDemmandeVo())) ;
              if(vo.getDemmandeurVo()!=null && this.demmandeur)
 	              item.setDemmandeur(demmandeurConverter.toItem(vo.getDemmandeurVo())) ;
+             if(vo.getSemestreVo()!=null && this.semestre)
+	              item.setSemestre(semestreConverter.toItem(vo.getSemestreVo())) ;
              if(vo.getTypeDocumentVo()!=null && this.typeDocument)
 	              item.setTypeDocument(typeDocumentConverter.toItem(vo.getTypeDocumentVo())) ;
 
@@ -60,20 +67,27 @@ public class DemmandeDocumentConverter extends AbstractConverter<DemmandeDocumen
 			    vo.setDateValidation(DateUtil.formateDate(item.getDateValidation()));	     
 			 if(item.getId()!=null)
 				vo.setId(NumberUtil.toString(item.getId()));
+			 if(item.getAnneeUniversitaire()!=null)
+					vo.setAnneeUniversitaire(NumberUtil.toString(item.getAnneeUniversitaire()));
             if(item.getEtatDemmande()!=null && this.etatDemmande) {
-				    etatDemmandeConverter.init(false);
+            	
 				   vo.setEtatDemmandeVo(etatDemmandeConverter.toVo(item.getEtatDemmande())) ;
-			        etatDemmandeConverter.init(true);
+			        
 			   } 
             if(item.getDemmandeur()!=null && this.demmandeur) {
-				    demmandeurConverter.init(false);
-				   vo.setDemmandeurVo(demmandeurConverter.toVo(item.getDemmandeur())) ;
-			        demmandeurConverter.init(true);
+
+            	vo.setDemmandeurVo(demmandeurConverter.toVo(item.getDemmandeur())) ;
+			       
+			   } 
+            if(item.getSemestre()!=null && this.semestre) {
+				   
+				   vo.setSemestreVo(semestreConverter.toVo(item.getSemestre())) ;
+			       
 			   } 
             if(item.getTypeDocument()!=null && this.typeDocument) {
-				    typeDocumentConverter.init(false);
+				    
 				   vo.setTypeDocumentVo(typeDocumentConverter.toVo(item.getTypeDocument())) ;
-			        typeDocumentConverter.init(true);
+			        
 			   } 
 
  			return vo;
@@ -84,9 +98,22 @@ public class DemmandeDocumentConverter extends AbstractConverter<DemmandeDocumen
        etatDemmande = value;
        demmandeur = value;
        typeDocument = value;
+       semestre = value;
 	}
 
-
+	 public SemestreConverter getSemestreConverter(){
+			return this.semestreConverter;
+		}  
+	    public void setSemestreConverter(SemestreConverter semestreConverter ){
+			 this.semestreConverter = semestreConverter;
+		}  
+		 public boolean  isSemestre(){
+			  return this.semestre;
+		 }
+		 public void  setSemestre(boolean semestre){
+			   this.semestre = semestre;
+		 }
+		 
 	public EtatDemmandeConverter getEtatDemmandeConverter(){
 		return this.etatDemmandeConverter;
 	}  

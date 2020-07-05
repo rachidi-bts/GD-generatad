@@ -62,19 +62,19 @@ public class NoteEtudiantModuleConverter extends AbstractConverter<NoteEtudiantM
 			 if(item.getId()!=null)
 				vo.setId(NumberUtil.toString(item.getId()));
             if(item.getNoteEtudiant()!=null && this.noteEtudiant) {
-				    noteEtudiantConverter.init(false);
+				  //  noteEtudiantConverter.init(false);
 				   vo.setNoteEtudiantVo(noteEtudiantConverter.toVo(item.getNoteEtudiant())) ;
-			        noteEtudiantConverter.init(true);
+			       // noteEtudiantConverter.init(true);
 			   } 
             if(item.getResultat()!=null && this.resultat) {
-				    resultatConverter.init(false);
+				   // resultatConverter.init(false);
 				   vo.setResultatVo(resultatConverter.toVo(item.getResultat())) ;
-			        resultatConverter.init(true);
+			       // resultatConverter.init(true);
 			   } 
             if(item.getModule()!=null && this.module) {
-				    moduleConverter.init(false);
+				  //  moduleConverter.init(false);
 				   vo.setModuleVo(moduleConverter.toVo(item.getModule())) ;
-			        moduleConverter.init(true);
+			      //  moduleConverter.init(true);
 			   } 
 
  			return vo;
