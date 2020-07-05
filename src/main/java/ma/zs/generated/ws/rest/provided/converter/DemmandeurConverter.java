@@ -104,9 +104,15 @@ public class DemmandeurConverter extends AbstractConverter<Demmandeur,Demmandeur
 				vo.setNom(item.getNom());
 			
             if(item.getFiliere()!=null && this.filiere) {
+<<<<<<< HEAD
 				   
+=======
+>>>>>>> branch 'master' of https://github.com/rachidi-bts/GD-generatad.git
 				   vo.setFiliereVo(filiereConverter.toVo(item.getFiliere())) ;
+<<<<<<< HEAD
 			        
+=======
+>>>>>>> branch 'master' of https://github.com/rachidi-bts/GD-generatad.git
 			   } 
 
  			return vo;

@@ -1,19 +1,23 @@
 package ma.zs.generated.service.impl;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.stereotype.Service;
-import javax.persistence.EntityManager;
 import ma.zs.generated.bean.Responsable;
 import ma.zs.generated.bean.TypeFiliere;
 import ma.zs.generated.dao.ResponsableDao;
 import ma.zs.generated.service.facade.ResponsableService;
 import ma.zs.generated.service.facade.TypeFiliereService;
+import ma.zs.generated.service.util.SearchUtil;
 import ma.zs.generated.ws.rest.provided.vo.ResponsableVo;
-import ma.zs.generated.service.util.*;
 @Service
 public class ResponsableServiceImpl implements ResponsableService {
 
@@ -55,7 +59,7 @@ public class ResponsableServiceImpl implements ResponsableService {
 	public Responsable findByLogin(String login){
 		return responsableDao.findByLogin(login);
 	}
-
+	    
 		@Override
 		@Transactional
 	public int deleteByLogin(String  login) {

@@ -1,6 +1,8 @@
 package ma.zs.generated.service.facade;
 
 import java.util.List;
+
+
 import ma.zs.generated.bean.Responsable;
 import ma.zs.generated.ws.rest.provided.vo.ResponsableVo;
 

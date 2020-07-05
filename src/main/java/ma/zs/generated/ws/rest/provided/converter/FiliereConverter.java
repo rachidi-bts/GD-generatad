@@ -53,9 +53,15 @@ public class FiliereConverter extends AbstractConverter<Filiere,FiliereVo>{
 			 if(item.getId()!=null)
 				vo.setId(NumberUtil.toString(item.getId()));
             if(item.getTypeFiliere()!=null && this.typeFiliere) {
+<<<<<<< HEAD
 				   
+=======
+>>>>>>> branch 'master' of https://github.com/rachidi-bts/GD-generatad.git
 				   vo.setTypeFiliereVo(typeFiliereConverter.toVo(item.getTypeFiliere())) ;
+<<<<<<< HEAD
 			        
+=======
+>>>>>>> branch 'master' of https://github.com/rachidi-bts/GD-generatad.git
 			   } 
 
  			return vo;
