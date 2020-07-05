@@ -38,12 +38,14 @@ import ma.zs.generated.bean.Demmandeur;
 import ma.zs.generated.bean.EtatDemmande;
 import ma.zs.generated.bean.NoteEtudiant;
 import ma.zs.generated.bean.NoteEtudiantModule;
+import ma.zs.generated.bean.Semestre;
 import ma.zs.generated.bean.TypeDocument;
 import ma.zs.generated.dao.DemmandeDocumentDao;
 import ma.zs.generated.service.facade.DemmandeDocumentService;
 import ma.zs.generated.service.facade.DemmandeurService;
 import ma.zs.generated.service.facade.EtatDemmandeService;
 import ma.zs.generated.service.facade.NoteEtudiantService;
+import ma.zs.generated.service.facade.SemestreService;
 import ma.zs.generated.service.facade.TypeDocumentService;
 import ma.zs.generated.service.util.SearchUtil;
 import ma.zs.generated.ws.rest.provided.vo.DemmandeDocumentVo;
@@ -60,6 +62,8 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
     private DemmandeurService demmandeurService ;
    @Autowired
     private TypeDocumentService typeDocumentService ;
+   @Autowired
+   private SemestreService semestreService ;
    @Autowired 
    private EntityManager entityManager; 
 
@@ -171,6 +175,14 @@ public class DemmandeDocumentServiceImpl implements DemmandeDocumentService {
 				  demmandeDocument.setDemmandeur(demmandeurService.save(demmandeDocument.getDemmandeur()));
 				  else
 				  demmandeDocument.setDemmandeur(demmandeur);
+			  }
+	          
+	          if(demmandeDocument.getSemestre()!=null){
+	        	  Semestre semestre = semestreService.findByLibellee(demmandeDocument.getSemestre().getLibellee());
+				  if(semestre == null)
+				  demmandeDocument.setSemestre(semestreService.save(demmandeDocument.getSemestre()));
+				  else
+				  demmandeDocument.setSemestre(semestre);
 			  }
 	    
 	          if(demmandeDocument.getTypeDocument()!=null){
