@@ -53,7 +53,6 @@
 			<artifactId>itextpdf</artifactId>
 			<version>5.5.10</version>
 		</dependency>
-<<<<<<< HEAD
 		
 		<dependency>
     <groupId>org.apache.poi</groupId>
@@ -66,8 +65,7 @@
     <version>3.15</version>
 </dependency>
 
-=======
->>>>>>> branch 'master' of https://github.com/rachidi-bts/GD-generatad.git
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
