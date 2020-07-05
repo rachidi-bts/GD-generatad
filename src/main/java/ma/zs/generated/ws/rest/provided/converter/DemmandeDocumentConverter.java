@@ -70,18 +70,12 @@ public class DemmandeDocumentConverter extends AbstractConverter<DemmandeDocumen
 			 if(item.getAnneeUniversitaire()!=null)
 					vo.setAnneeUniversitaire(NumberUtil.toString(item.getAnneeUniversitaire()));
             if(item.getEtatDemmande()!=null && this.etatDemmande) {
-<<<<<<< HEAD
-            	
-=======
->>>>>>> branch 'master' of https://github.com/rachidi-bts/GD-generatad.git
+
 				   vo.setEtatDemmandeVo(etatDemmandeConverter.toVo(item.getEtatDemmande())) ;
-<<<<<<< HEAD
-			        
-=======
->>>>>>> branch 'master' of https://github.com/rachidi-bts/GD-generatad.git
+
 			   } 
             if(item.getDemmandeur()!=null && this.demmandeur) {
-<<<<<<< HEAD
+
 
             	vo.setDemmandeurVo(demmandeurConverter.toVo(item.getDemmandeur())) ;
 			       
@@ -90,20 +84,12 @@ public class DemmandeDocumentConverter extends AbstractConverter<DemmandeDocumen
 				   
 				   vo.setSemestreVo(semestreConverter.toVo(item.getSemestre())) ;
 			       
-=======
 				   vo.setDemmandeurVo(demmandeurConverter.toVo(item.getDemmandeur())) ;
->>>>>>> branch 'master' of https://github.com/rachidi-bts/GD-generatad.git
 			   } 
             if(item.getTypeDocument()!=null && this.typeDocument) {
-<<<<<<< HEAD
 				    
-=======
->>>>>>> branch 'master' of https://github.com/rachidi-bts/GD-generatad.git
 				   vo.setTypeDocumentVo(typeDocumentConverter.toVo(item.getTypeDocument())) ;
-<<<<<<< HEAD
 			        
-=======
->>>>>>> branch 'master' of https://github.com/rachidi-bts/GD-generatad.git
 			   } 
 
  			return vo;

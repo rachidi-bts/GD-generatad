@@ -69,19 +69,6 @@ public class Responsable {
      public void setTypeFiliere(TypeFiliere typeFiliere){
           this.typeFiliere = typeFiliere;
      }
-<<<<<<< HEAD
-
-	public Responsable(Long id, String password, String login, TypeFiliere typeFiliere) {
-		super();
-		this.id = id;
-		this.password = password;
-		this.login = login;
-		this.typeFiliere = typeFiliere;
-	}
-
-=======
-     
->>>>>>> branch 'master' of https://github.com/rachidi-bts/GD-generatad.git
 
 
 }
