@@ -37,7 +37,6 @@ public interface DemmandeDocumentDao extends JpaRepository<DemmandeDocument,Long
        List<DemmandeDocument> findByTypeDocumentLibelle(String libelle);
        int deleteByTypeDocumentLibelle(String libelle);  
        
-       
        List<DemmandeDocument> findByTypeDocumentId(Long id);
        int deleteByTypeDocumentId(Long id);
 

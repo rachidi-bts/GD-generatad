@@ -10,8 +10,7 @@ import ma.zs.generated.bean.NoteEtudiant;
 @Repository
 public interface NoteEtudiantDao extends JpaRepository<NoteEtudiant,Long> {
 		NoteEtudiant findByDemmandeurCneAndSemestreLibelleeAndAnneeUniversitaire(String cne,String libellee, Long anneeUniversirtaire);
-		//NoteEtudiant findByDemmandeurCne(String cne);
-
+		
        List<NoteEtudiant> findByResultatFinalLibelle(String libelle);
        int deleteByResultatFinalLibelle(String libelle);       
        List<NoteEtudiant> findByResultatFinalId(Long id);
